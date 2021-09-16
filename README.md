@@ -78,3 +78,8 @@ Use `typechain` to generate contract interfaces for UI integration.
 Use the `truffle-contract-size` module to find the size of each contract in the `contracts/` directory with:  
 `yarn size`  
 
+
+## Architecture
+The preliminary design is as follows: 
+<img src="images/apeswap-expense-routing.png">
+
