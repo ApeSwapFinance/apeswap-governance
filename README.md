@@ -1,4 +1,4 @@
-# Truffle Typescript Boilerplate
+# ApeSwap Governance
 Build Solidity smart contracts with truffle, openzeppelin and typescript support.
 
 ## Install 

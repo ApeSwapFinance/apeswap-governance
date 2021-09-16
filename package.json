@@ -1,8 +1,8 @@
 {
-  "name": "truffle-template",
+  "name": "@apeswapfinance/governance",
   "version": "1.0.0",
-  "description": "This repository acts as boilerplate code for new truffle projects.",
-  "author": "DeFiFoFum",
+  "description": "A collection of solidity smart contracts to help manage the ApeSwap DAO.",
+  "author": "ApeSwap",
   "main": "index.js",
   "scripts": {
     "ganache": "npx ganache-cli",
