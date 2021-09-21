@@ -14,7 +14,7 @@ const MEMBER_IDS = [
   'MEMBER_5',
 ]
 
-describe('MockToken', function () {
+describe('ApeSwapRoster', function () {
   const [owner, alice, bob, carol, doug, elsie] = accounts;
   
   before(async () => {
@@ -51,9 +51,10 @@ describe('MockToken', function () {
 
     // console.dir((await this.roster.isActiveMember(MEMBER_IDS[0])).inactiveDate.toString())
     let activeState = await this.roster.isActiveMember(MEMBER_IDS[0]);
+    // Turn seconds into ms for Date
     var date = new Date(Number(activeState.inactiveDate.toString() + '000'));
-    console.log(date);
 
-    console.log((await this.roster.getActiveSecondsForMember(MEMBER_IDS[0], '0', '999999999999')).toString());
+    assert.isAtLeast((await this.roster.getActiveSecondsForMember(MEMBER_IDS[0], '0', '999999999999')).toNumber(), 10);
+    assert.isAtMost((await this.roster.getActiveSecondsForMember(MEMBER_IDS[0], '0', '999999999999')).toNumber(), 11);
   });
 });
