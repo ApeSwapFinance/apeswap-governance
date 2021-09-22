@@ -1,6 +1,8 @@
 import { Contract, PopulatedTransaction } from '@ethersproject/contracts'
-import Timelock from '../build/contracts/Timelock.json'
-import { BigNumber, utils } from 'ethers';
+import TimelockBuild from '../build/contracts/Timelock.json'
+import { Timelock } from '../types/ethers-contracts/Timelock'
+
+import { BigNumber, utils, BytesLike } from 'ethers';
 
 const abiCoder = utils.defaultAbiCoder;
 const keccak256 = utils.keccak256;
@@ -11,16 +13,16 @@ interface SingleOperation {
     target: string;
     value: string | BigNumber;
     data: string;
-    predecessor: string | BigNumber;
-    salt: string | BigNumber;
+    predecessor: BytesLike;
+    salt: BytesLike;
 }
 
 interface BatchOperation {
     targets: string[];
     values: Array<string | BigNumber>;
     datas: string[];
-    predecessor: Array<string | BigNumber>;
-    salt: Array<string | BigNumber>;
+    predecessor: BytesLike;
+    salt: BytesLike;
 }
 
 interface EncodeReturn {
@@ -31,10 +33,10 @@ interface EncodeReturn {
 
 
 export default class TimelockEncoder {
-    timelockContract: Contract;
+    timelockContract: Timelock;
 
     constructor(address = ADDRESS_0) {
-        this.timelockContract = new Contract(address, Timelock.abi);;
+        this.timelockContract = new Contract(address, TimelockBuild.abi) as Timelock;
     }
 
     async encodeCancelOperation(operationId: string): Promise<PopulatedTransaction> {
