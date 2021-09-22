@@ -31,6 +31,13 @@ interface EncodeReturn {
     operationId: string;
 }
 
+export interface BatchEncodeReturn {
+    scheduleBatchEncoded: PopulatedTransaction,
+    executeBatchEncoded: PopulatedTransaction,
+    cancelBatchEncoded: PopulatedTransaction,
+    operationId: string
+}
+
 
 export default class TimelockEncoder {
     timelockContract: Timelock;
@@ -88,7 +95,7 @@ export default class TimelockEncoder {
     /**
      * Batch TX handling
      */
-    async encodeTxsForBatchOperation({ targets, values, datas, predecessor, salt }: BatchOperation, delay: string | number): Promise<{ scheduleBatchEncoded: PopulatedTransaction, executeBatchEncoded: PopulatedTransaction, cancelBatchEncoded: PopulatedTransaction, operationId: string }> {
+    async encodeTxsForBatchOperation({ targets, values, datas, predecessor, salt }: BatchOperation, delay: string | number): Promise<BatchEncodeReturn> {
         const { populatedTx: scheduleBatchEncoded, operationId } = await this.encodeScheduleBatch({ targets, values, datas, predecessor, salt }, delay);
         const { populatedTx: executeBatchEncoded, } = await this.encodeExecuteBatch({ targets, values, datas, predecessor, salt });
         const cancelBatchEncoded = await this.encodeCancelOperation(operationId);
