@@ -1,13 +1,11 @@
 import { Contract, PopulatedTransaction } from '@ethersproject/contracts'
 import TimelockBuild from '../build/contracts/Timelock.json'
 import { Timelock } from '../types/ethers-contracts/Timelock'
-
 import { BigNumber, utils, BytesLike } from 'ethers';
+import { ADDRESS_0 } from '../lib/constants/'
 
 const abiCoder = utils.defaultAbiCoder;
 const keccak256 = utils.keccak256;
-
-const ADDRESS_0 = '0x0000000000000000000000000000000000000001'
 
 interface SingleOperation {
     target: string;

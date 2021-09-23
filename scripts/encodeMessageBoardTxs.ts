@@ -4,12 +4,9 @@ import { Contract, PopulatedTransaction } from '@ethersproject/contracts'
 import MessageBoardBuild from '../build/contracts/MessageBoard.json'
 import { MessageBoard } from '../types/ethers-contracts/MessageBoard'
 
+import { ADDRESS_0, BYTES_32_0 } from '../lib/constants/'
 import { addressList } from '../lib/constants/addressList';
 import TimelockEncoder, { BatchEncodeReturn } from '../lib/TimelockEncoder';
-
-
-const ADDRESS_0 = '0x0000000000000000000000000000000000000000';
-const BYTES_32_0 = utils.formatBytes32String('');
 
 
 async function encodeMessageTx(message: string, { address = ADDRESS_0 }): Promise<PopulatedTransaction> {
@@ -25,27 +22,27 @@ async function encodeBatchTimelockMessageTx(messages: string[], { timelockAddres
     const datas: string[] = [];
     const values: string[] = [];
     for (const message of messages) {
-        const populatedTx = await encodeMessageTx(message, { address: messageBoardAddress});
+        const populatedTx = await encodeMessageTx(message, { address: messageBoardAddress });
         targets.push(populatedTx.to || '0x');
         datas.push(populatedTx.data || '0x');
         values.push('0');
     }
 
-    return await timelockEncoder.encodeTxsForBatchOperation({targets, values, datas, predecessor, salt}, delay);
+    return await timelockEncoder.encodeTxsForBatchOperation({ targets, values, datas, predecessor, salt }, delay);
 };
 
 
-(async function() {
+(async function () {
     try {
         // TODO: dynamic code
         const messages = ['DeFi Apes', 'We love $BANANA', 'But also love to burn $BANANA'];
         const messageBoardAddress = addressList[56].MESSAGE_BOARD;
         const timelockAddress = addressList[56].OZ_TIMELOCK_ALPHA;
-        const encodeReturn = await encodeBatchTimelockMessageTx(messages, {messageBoardAddress, timelockAddress});
+        const encodeReturn = await encodeBatchTimelockMessageTx(messages, { messageBoardAddress, timelockAddress });
         console.dir(encodeReturn);
         process.exit(0); // Exit Success
     } catch (e) {
         throw new Error(e);
-    }   
+    }
 }());
 
