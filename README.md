@@ -81,5 +81,5 @@ Use the `truffle-contract-size` module to find the size of each contract in the 
 
 ## Architecture
 The preliminary design is as follows: 
-<img src="images/apeswap-expense-routing.png">
+<img src="images/apeswap-dao-wip.png">
 
