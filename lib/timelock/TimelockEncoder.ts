@@ -1,11 +1,19 @@
 import { Contract, PopulatedTransaction } from '@ethersproject/contracts'
 import TimelockBuild from '../../build/contracts/Timelock.json'
 import { Timelock } from '../../types/ethers-contracts/Timelock'
+import AccessControlEncoder from './AccessControlEncoder'
 import { BigNumber, utils, BytesLike } from 'ethers';
 import { ADDRESS_0, BYTES_32_0 } from '../constants'
 
 const abiCoder = utils.defaultAbiCoder;
 const keccak256 = utils.keccak256;
+
+type ROLE = 'TIMELOCK_ADMIN_ROLE' | 'PROPOSER_ROLE' | 'EXECUTOR_ROLE';
+
+interface RoleInput {
+    role: ROLE;
+    account: string;
+}
 
 interface SingleOperation {
     target: string;
@@ -39,10 +47,29 @@ export interface BatchEncodeReturn {
 
 export default class TimelockEncoder {
     timelockContract: Timelock;
+    accessControlEncoder: AccessControlEncoder;
 
     constructor(address = ADDRESS_0) {
         this.timelockContract = new Contract(address, TimelockBuild.abi) as Timelock;
+        this.accessControlEncoder = new AccessControlEncoder(address);
     }
+
+    /**
+     * Access Control
+     */
+    async encodeGrantRole({ role, account }: RoleInput): Promise<PopulatedTransaction> {
+
+        return await this.accessControlEncoder.encodeGrantRole({role: keccak256(role), account});
+    }
+
+    async encodeRevokeRole({ role, account }: RoleInput): Promise<PopulatedTransaction> {
+        return await this.accessControlEncoder.encodeRevokeRole({role: keccak256(role), account});
+    }
+
+    async encodeRenounceRole({ role, account }: RoleInput): Promise<PopulatedTransaction> {
+        return await this.accessControlEncoder.encodeRenounceRole({role: keccak256(role), account});
+    }
+
 
     async encodeCancelOperation(operationId: string): Promise<PopulatedTransaction> {
         return await this.timelockContract.populateTransaction.cancel(operationId);
