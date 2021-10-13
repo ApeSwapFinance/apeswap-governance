@@ -1,10 +1,12 @@
 {
   "name": "@apeswapfinance/governance",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "A collection of solidity smart contracts to help manage the ApeSwap DAO.",
   "author": "ApeSwap",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
+    "build": "tsc",
+    "prepublish": "yarn gen:types && yarn build",
     "ganache": "npx ganache-cli",
     "postinstall": "yarn compile && yarn gen:types",
     "pretest": "yarn compile",
