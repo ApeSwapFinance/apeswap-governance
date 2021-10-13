@@ -12,9 +12,9 @@ This is a VERY risky procedure for a running MasterApe. It could brick the entir
 
 ## Steps
 
-1. Deploy `Timelock A` and `Timelock B`. The owner of these should be a multisig.
+1. Deploy `Secure Timelock` and `General Timelock`. The owner of these should be a multisig.
 2. Deploy `MasterApeAdmin`. Set the `MasterApe` address to the production address and `farmAdmin` to Timelock B
-3. Transfer ownership of the contract to `Timelock A`
+3. Transfer ownership of the contract to `Secure Timelock`
 4. Run some tests on the `MasterApeAdmin`
    1. Verify MasterApe address is correct before starting transfer
 5. Schedule the transfer of ownership through the timelock contract. Verify again that: 
