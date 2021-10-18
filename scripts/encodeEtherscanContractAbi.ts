@@ -1,5 +1,5 @@
 
-import { EtherscanService, getConfig } from 'etherscan-api-typescript-sdk';
+import { EtherscanService, getConfig } from '@defifofum/etherscan-sdk';
 import { Contract } from '@ethersproject/contracts'
 import { addressList } from '../lib/constants/addressList';
 import TimelockEncoder from '../lib/timelock/TimelockEncoder';
@@ -54,7 +54,7 @@ import TimelockEncoder from '../lib/timelock/TimelockEncoder';
         const timelockBatchEncoded = await timelockEncoder.encodeTxsForBatchOperation({targets, values, datas}, 20)
 
         console.dir({timelockBatchEncoded}, {depth: 5});
-        
+
         await Promise.resolve(console.log('🎉'));
         process.exit(0); // Exit Success
     } catch (e) {
