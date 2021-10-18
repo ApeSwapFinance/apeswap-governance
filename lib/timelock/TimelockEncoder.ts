@@ -58,7 +58,6 @@ export default class TimelockEncoder {
      * Access Control
      */
     async encodeGrantRole({ role, account }: RoleInput): Promise<PopulatedTransaction> {
-
         return await this.accessControlEncoder.encodeGrantRole({role: keccak256(role), account});
     }
 
@@ -69,7 +68,6 @@ export default class TimelockEncoder {
     async encodeRenounceRole({ role, account }: RoleInput): Promise<PopulatedTransaction> {
         return await this.accessControlEncoder.encodeRenounceRole({role: keccak256(role), account});
     }
-
 
     async encodeCancelOperation(operationId: string): Promise<PopulatedTransaction> {
         return await this.timelockContract.populateTransaction.cancel(operationId);
@@ -84,7 +82,6 @@ export default class TimelockEncoder {
         const cancelEncoded = await this.encodeCancelOperation(operationId);
 
         return { scheduleEncoded, executeEncoded, cancelEncoded, operationId }
-
     }
 
     async hashOperation({ target, value = '0', data, predecessor = BYTES_32_0, salt = BYTES_32_0 }: SingleOperation): Promise<string> {
