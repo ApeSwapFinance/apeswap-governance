@@ -5,11 +5,16 @@ function getDeployConfig(network, accounts) {
     if (["bsc", "bsc-fork"].includes(network)) {
         console.log(`Deploying with BSC MAINNET config.`)
         return {
-            minDelay: 10,
-            admin: '0x50Cf6cdE8f63316b2BD6AACd0F5581aEf5dD235D',
+            minDelay: 21600, // 6hr
+            admin: '0x7b26A27af246b4E482f37eF24e9a3f83c3FC7f1C', // Secure Admin [BSC GSafe]
             // NOTE: admin is added to these in migration script
-            additionalProposers: [],
-            additionalExecutors: [],
+            additionalProposers: [
+                '0x50Cf6cdE8f63316b2BD6AACd0F5581aEf5dD235D', // General Admin [BSC GSafe]
+            ],
+            additionalExecutors: [
+                '0x50Cf6cdE8f63316b2BD6AACd0F5581aEf5dD235D', // General Admin [BSC GSafe]
+                '0xb5FF1896Fbc20CA130cE4736878aac01CA852b29', // Executor [BSC GSafe]
+            ],
         }
     } else if (['bsc-testnet', 'bsc-testnet-fork'].includes(network)) {
         console.log(`Deploying with BSC testnet config.`)

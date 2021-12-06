@@ -12,6 +12,18 @@ Create a `.env` file based off of `.env.example` to deploy contracts to bsc main
 
 </br>
 
+## Package Install 
+This repo also provides a helper module for interacting with the ApeSwap Governance contracts with node via a front-end or back-end framework.  
+
+`yarn add @apeswapfinance/governance`  
+
+As this package is hosted via GitHub's package management service, please create a `.npmrc` file at the root of your project and add the lines below. You will need to create a [GitHub Personal Access Token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) and export it via `export=<NPM_TOKEN>`.  
+
+```bash
+@apeswapfinance:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=${NPM_TOKEN}
+```
+
 ## Development
 Start a local development blockchain by running the following command:  
 `yarn ganache`  
@@ -78,8 +90,37 @@ Use `typechain` to generate contract interfaces for UI integration.
 Use the `truffle-contract-size` module to find the size of each contract in the `contracts/` directory with:  
 `yarn size`  
 
+## Usage
+Provided below is an example of importing the and using the provided library to encode a batch timelock tx.
+
+```js
+import { TimelockLib } from '@apeswapfinance/governance';
+const timelockEncoder = new TimelockLib.TimelockEncoder();
+
+
+async function encodeMessageTx(message: string, { address = ADDRESS_0 }): Promise<PopulatedTransaction> {
+    const messageBoardContract = new Contract(address, MessageBoardBuild.abi) as MessageBoard;
+    const populatedTx = await messageBoardContract.populateTransaction.addMessage(message);
+    return populatedTx;
+}
+
+async function encodeBatchTimelockMessageTx(messages: string[], { timelockAddress = ADDRESS_0, messageBoardAddress = ADDRESS_0, predecessor = BYTES_32_0, salt = BYTES_32_0, delay = 20 }): Promise<BatchEncodeReturn> {
+    const timelockEncoder = new TimelockEncoder(timelockAddress);
+
+    const targets: string[] = [];
+    const datas: string[] = [];
+    const values: string[] = [];
+    for (const message of messages) {
+        const populatedTx = await encodeMessageTx(message, { address: messageBoardAddress });
+        targets.push(populatedTx.to || '0x');
+        datas.push(populatedTx.data || '0x');
+        values.push('0');
+    }
+
+    return await timelockEncoder.encodeTxsForBatchOperation({ targets, values, datas, predecessor, salt }, delay);
+};
+```
 
 ## Architecture
 The preliminary design is as follows: 
 <img src="images/apeswap-dao-wip.png">
-

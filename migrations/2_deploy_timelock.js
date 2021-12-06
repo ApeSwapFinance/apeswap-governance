@@ -15,17 +15,23 @@ module.exports = async function (deployer, network, accounts) {
   const timelock = await Timelock.at(Timelock.address);
   // Transfer ownership to general admin
   const TIMELOCK_ADMIN_ROLE = await timelock.TIMELOCK_ADMIN_ROLE();
+  const PROPOSER_ROLE = await timelock.PROPOSER_ROLE();
+  const EXECUTOR_ROLE = await timelock.EXECUTOR_ROLE();
   await timelock.grantRole(TIMELOCK_ADMIN_ROLE, admin, {from: deployerAccount});
   await timelock.renounceRole(TIMELOCK_ADMIN_ROLE, deployerAccount, {from: deployerAccount});
   // Verify results
-  const adminHasRole = await timelock.hasRole(TIMELOCK_ADMIN_ROLE, admin, {from: deployerAccount});
-  const deployerHasRole = await timelock.hasRole(TIMELOCK_ADMIN_ROLE, deployerAccount, {from: deployerAccount});
+  const adminHasAdminRole = await timelock.hasRole(TIMELOCK_ADMIN_ROLE, admin, {from: deployerAccount});
+  const deployerHasAdminRole = await timelock.hasRole(TIMELOCK_ADMIN_ROLE, deployerAccount, {from: deployerAccount});
+  const deployerHasProposerRole = await timelock.hasRole(PROPOSER_ROLE, deployerAccount, {from: deployerAccount});
+  const deployerHasExecutorRole = await timelock.hasRole(EXECUTOR_ROLE, deployerAccount, {from: deployerAccount});
 
   // Log/verify results
   console.dir({
     timelock: timelock.address,
     admin,
-    adminHasRole,
-    deployerHasRole
+    adminHasRole: adminHasAdminRole,
+    deployerHasAdminRole,
+    deployerHasProposerRole,
+    deployerHasExecutorRole,
   })
 };

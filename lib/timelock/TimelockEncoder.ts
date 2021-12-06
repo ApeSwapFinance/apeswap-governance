@@ -1,26 +1,34 @@
 import { Contract, PopulatedTransaction } from '@ethersproject/contracts'
-import TimelockBuild from '../build/contracts/Timelock.json'
-import { Timelock } from '../types/ethers-contracts/Timelock'
+import TimelockBuild from '../../build/contracts/Timelock.json'
+import { Timelock } from '../../types/ethers-contracts/Timelock'
+import AccessControlEncoder from './AccessControlEncoder'
 import { BigNumber, utils, BytesLike } from 'ethers';
-import { ADDRESS_0 } from '../lib/constants/'
+import { ADDRESS_0, BYTES_32_0 } from '../constants'
 
 const abiCoder = utils.defaultAbiCoder;
 const keccak256 = utils.keccak256;
 
+type ROLE = 'TIMELOCK_ADMIN_ROLE' | 'PROPOSER_ROLE' | 'EXECUTOR_ROLE';
+
+interface RoleInput {
+    role: ROLE;
+    account: string;
+}
+
 interface SingleOperation {
     target: string;
-    value: string | BigNumber;
+    value?: string | BigNumber;
     data: string;
-    predecessor: BytesLike;
-    salt: BytesLike;
+    predecessor?: BytesLike;
+    salt?: BytesLike;
 }
 
 interface BatchOperation {
     targets: string[];
     values: Array<string | BigNumber>;
     datas: string[];
-    predecessor: BytesLike;
-    salt: BytesLike;
+    predecessor?: BytesLike;
+    salt?: BytesLike;
 }
 
 interface EncodeReturn {
@@ -39,9 +47,26 @@ export interface BatchEncodeReturn {
 
 export default class TimelockEncoder {
     timelockContract: Timelock;
+    accessControlEncoder: AccessControlEncoder;
 
     constructor(address = ADDRESS_0) {
         this.timelockContract = new Contract(address, TimelockBuild.abi) as Timelock;
+        this.accessControlEncoder = new AccessControlEncoder(address);
+    }
+
+    /**
+     * Access Control
+     */
+    async encodeGrantRole({ role, account }: RoleInput): Promise<PopulatedTransaction> {
+        return await this.accessControlEncoder.encodeGrantRole({role: keccak256(role), account});
+    }
+
+    async encodeRevokeRole({ role, account }: RoleInput): Promise<PopulatedTransaction> {
+        return await this.accessControlEncoder.encodeRevokeRole({role: keccak256(role), account});
+    }
+
+    async encodeRenounceRole({ role, account }: RoleInput): Promise<PopulatedTransaction> {
+        return await this.accessControlEncoder.encodeRenounceRole({role: keccak256(role), account});
     }
 
     async encodeCancelOperation(operationId: string): Promise<PopulatedTransaction> {
@@ -51,16 +76,15 @@ export default class TimelockEncoder {
     /**
      * Single TX handling
      */
-    async encodeTxsForSingleOperation({ target, value, data, predecessor, salt }: SingleOperation, delay: string | number): Promise<{ scheduleEncoded: PopulatedTransaction, executeEncoded: PopulatedTransaction, cancelEncoded: PopulatedTransaction, operationId: string }> {
+    async encodeTxsForSingleOperation({ target, value = '0', data, predecessor = BYTES_32_0, salt = BYTES_32_0 }: SingleOperation, delay: string | number): Promise<{ scheduleEncoded: PopulatedTransaction, executeEncoded: PopulatedTransaction, cancelEncoded: PopulatedTransaction, operationId: string }> {
         const { populatedTx: scheduleEncoded, operationId } = await this.encodeSchedule({ target, value, data, predecessor, salt }, delay);
         const { populatedTx: executeEncoded, } = await this.encodeExecute({ target, value, data, predecessor, salt });
         const cancelEncoded = await this.encodeCancelOperation(operationId);
 
         return { scheduleEncoded, executeEncoded, cancelEncoded, operationId }
-
     }
 
-    async hashOperation({ target, value, data, predecessor, salt }: SingleOperation): Promise<string> {
+    async hashOperation({ target, value = '0', data, predecessor = BYTES_32_0, salt = BYTES_32_0 }: SingleOperation): Promise<string> {
         const abiEncoded = abiCoder.encode(
             ["address", "uint256", "bytes", "bytes32", "bytes32"],
             [target, value, data, predecessor, salt]
@@ -69,7 +93,7 @@ export default class TimelockEncoder {
         return operationId;
     }
 
-    async encodeSchedule({ target, value, data, predecessor, salt }: SingleOperation, delay: string | number): Promise<EncodeReturn> {
+    async encodeSchedule({ target, value = '0', data, predecessor = BYTES_32_0, salt = BYTES_32_0 }: SingleOperation, delay: string | number): Promise<EncodeReturn> {
         const populatedTx = await this.timelockContract.populateTransaction.schedule(target, value, data, predecessor, salt, delay);
         const operationId = await this.hashOperation({ target, value, data, predecessor, salt });
         return {
@@ -79,7 +103,7 @@ export default class TimelockEncoder {
         }
     }
 
-    async encodeExecute({ target, value, data, predecessor, salt }: SingleOperation): Promise<EncodeReturn> {
+    async encodeExecute({ target, value = '0', data, predecessor = BYTES_32_0, salt = BYTES_32_0 }: SingleOperation): Promise<EncodeReturn> {
         const populatedTx = await this.timelockContract.populateTransaction.execute(target, value, data, predecessor, salt);
         const operationId = await this.hashOperation({ target, value, data, predecessor, salt });
         return {
@@ -93,7 +117,7 @@ export default class TimelockEncoder {
     /**
      * Batch TX handling
      */
-    async encodeTxsForBatchOperation({ targets, values, datas, predecessor, salt }: BatchOperation, delay: string | number): Promise<BatchEncodeReturn> {
+    async encodeTxsForBatchOperation({ targets, values, datas, predecessor = BYTES_32_0, salt = BYTES_32_0 }: BatchOperation, delay: string | number): Promise<BatchEncodeReturn> {
         const { populatedTx: scheduleBatchEncoded, operationId } = await this.encodeScheduleBatch({ targets, values, datas, predecessor, salt }, delay);
         const { populatedTx: executeBatchEncoded, } = await this.encodeExecuteBatch({ targets, values, datas, predecessor, salt });
         const cancelBatchEncoded = await this.encodeCancelOperation(operationId);
@@ -102,7 +126,7 @@ export default class TimelockEncoder {
 
     }
 
-    async hashOperationBatch({ targets, values, datas, predecessor, salt }: BatchOperation): Promise<string> {
+    async hashOperationBatch({ targets, values, datas, predecessor = BYTES_32_0, salt = BYTES_32_0 }: BatchOperation): Promise<string> {
         const abiEncoded = abiCoder.encode(
             ["address[]", "uint256[]", "bytes[]", "bytes32", "bytes32"],
             [targets, values, datas, predecessor, salt]
@@ -110,7 +134,7 @@ export default class TimelockEncoder {
         const operationId = keccak256(abiEncoded);
         return operationId;
     }
-    async encodeScheduleBatch({ targets, values, datas, predecessor, salt }: BatchOperation, delay: string | number): Promise<EncodeReturn> {
+    async encodeScheduleBatch({ targets, values, datas, predecessor = BYTES_32_0, salt = BYTES_32_0 }: BatchOperation, delay: string | number): Promise<EncodeReturn> {
         const populatedTx = await this.timelockContract.populateTransaction.scheduleBatch(targets, values, datas, predecessor, salt, delay);
         const operationId = await this.hashOperationBatch({ targets, values, datas, predecessor, salt });
         return {
@@ -120,7 +144,7 @@ export default class TimelockEncoder {
         }
     }
 
-    async encodeExecuteBatch({ targets, values, datas, predecessor, salt }: BatchOperation): Promise<EncodeReturn> {
+    async encodeExecuteBatch({ targets, values, datas, predecessor = BYTES_32_0, salt = BYTES_32_0 }: BatchOperation): Promise<EncodeReturn> {
         const populatedTx = await this.timelockContract.populateTransaction.executeBatch(targets, values, datas, predecessor, salt);
         const operationId = await this.hashOperationBatch({ targets, values, datas, predecessor, salt });
         return {
