@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "A collection of solidity smart contracts to help manage the ApeSwap DAO.",
   "author": "ApeSwap",
-  "main": "index.ts",
+  "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
     "prepublish": "yarn gen:types && yarn build",
@@ -36,6 +36,9 @@
       "pre-commit": "yarn prettier:fix && yarn lint:fix",
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
   },
   "license": "MIT",
   "devDependencies": {
