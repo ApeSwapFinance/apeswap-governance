@@ -6,7 +6,7 @@ import { MessageBoard } from '../types/ethers-contracts/MessageBoard'
 
 import { ADDRESS_0, BYTES_32_0 } from '../lib/constants/'
 import { addressList } from '../lib/constants/addressList';
-import TimelockEncoder, { BatchEncodeReturn } from '../lib/TimelockEncoder';
+import TimelockEncoder, { BatchEncodeReturn } from '../lib/timelock/TimelockEncoder';
 
 
 async function encodeMessageTx(message: string, { address = ADDRESS_0 }): Promise<PopulatedTransaction> {
