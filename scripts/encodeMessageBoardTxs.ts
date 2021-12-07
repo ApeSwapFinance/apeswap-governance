@@ -41,7 +41,7 @@ async function encodeBatchTimelockMessageTx(messages: string[], { timelockAddres
         const encodeReturn = await encodeBatchTimelockMessageTx(messages, { messageBoardAddress, timelockAddress });
         console.dir(encodeReturn);
         process.exit(0); // Exit Success
-    } catch (e) {
+    } catch (e: any) {
         throw new Error(e);
     }
 }());

@@ -57,7 +57,7 @@ import TimelockEncoder from '../lib/timelock/TimelockEncoder';
 
         await Promise.resolve(console.log('🎉'));
         process.exit(0); // Exit Success
-    } catch (e) {
+    } catch (e: any) {
         throw new Error(e);
     }
 }());

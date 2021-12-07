@@ -25,7 +25,7 @@ async function encodeMasterApeTransferOwnershipTx(newOwner: string, { address = 
 
         console.dir({TimelockEncoded: timelockEncoded, MasterApeEncoded: encodedTx}, { depth: 5 });
         process.exit(0); // Exit Success
-    } catch (e) {
+    } catch (e: any) {
         throw new Error(e);
     }
 }());
