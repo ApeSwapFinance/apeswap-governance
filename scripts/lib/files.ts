@@ -1,5 +1,11 @@
 import fs from 'fs';
 
+/**
+ * Read a json file from local storage by providing a path, file name and file extension.
+ * 
+ * @param filePath 
+ * @returns 
+ */
 export const readJSONFile = async (filePath: string): Promise<Buffer> => {
 	try {
 		const buffer = await fs.promises.readFile(filePath, 'utf8');
@@ -9,6 +15,12 @@ export const readJSONFile = async (filePath: string): Promise<Buffer> => {
 	}
 };
 
+/**
+ * Write a js object to local storage by providing a path, file name and file extension.
+ * 
+ * @param fileName 
+ * @param data 
+ */
 export const writeJSONToFile = async (
 	fileName: string,
 	data: {}
