@@ -4,10 +4,14 @@ export * as ContractTypes from './types/ethers-contracts/'
 
 import MasterApe from './build-apeswap/contracts/MasterApe.json'
 import MasterApeAdmin from './build-apeswap/contracts/MasterApe.json'
+import AccessControl from './build/contracts/AccessControl.json'
+import Timelock from './build/contracts/Timelock.json'
 
 const ContractArtifacts = {
     MasterApe,
-    MasterApeAdmin
+    MasterApeAdmin,
+    AccessControl,
+    Timelock,
 }
 
 export { ContractArtifacts };
