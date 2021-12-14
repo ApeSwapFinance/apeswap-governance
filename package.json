@@ -1,6 +1,6 @@
 {
   "name": "@apeswapfinance/governance",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A collection of solidity smart contracts to help manage the ApeSwap DAO.",
   "author": "ApeSwap",
   "main": "dist/index.js",
