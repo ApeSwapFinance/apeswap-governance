@@ -760,12 +760,12 @@
   dependencies:
     "@cspotcode/source-map-consumer" "0.8.0"
 
-"@defifofum/etherscan-sdk@^0.0.2":
-  version "0.0.2"
-  resolved "https://npm.pkg.github.com/download/@defifofum/etherscan-sdk/0.0.2/03e7e9e96d73f3de6b659189c99a7c350b237ec0066cb13e8e91772fa622504e#e3ab33a0b98d41075018d87c510b28c9dce60701"
-  integrity sha512-aRvSVKwigCsOUGFO3sLNB8EQMnc0WNk5wW3s4DlP9uc5tt5d2gTf6Cd5yMVDv9whGfZaNNtpHz3HMbcogqbSXw==
+"@defifofum/etherscan-sdk@^0.0.4":
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/@defifofum/etherscan-sdk/-/etherscan-sdk-0.0.4.tgz#10057530045012290f5ce3cd0636dfd59ab4436d"
+  integrity sha512-li4ZUDtvetIIzXa7B26i+SzLkgYwd/MDpSQco4dkaXwOm/Pz2CZvL0P6OemkDNnIb6zFLNyWtm1QbWK0NBgfZA==
   dependencies:
-    axios "^0.21.1"
+    axios "^0.21.2"
     dotenv "^10.0.0"
     ethers "^5.4.4"
 
@@ -3753,7 +3753,7 @@ axios@^0.20.0:
   dependencies:
     follow-redirects "^1.10.0"
 
-axios@^0.21.1:
+axios@^0.21.1, axios@^0.21.2:
   version "0.21.4"
   resolved "https://registry.yarnpkg.com/axios/-/axios-0.21.4.tgz#c67b90dc0568e5c1cf2b0b858c43ba28e2eda575"
   integrity sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==
