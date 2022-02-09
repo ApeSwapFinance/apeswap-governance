@@ -29,6 +29,7 @@
     "verify:bsc": "truffle run verify Timelock --network bsc",
     "verify:bsc:aux": "truffle run verify MessageBoard --network bsc",
     "verify:bsc-testnet": "truffle run verify Timelock --network bsc-testnet",
+    "encode:transfer-masterape-owner": "ts-node ./scripts/encodeTrasnsferMasterApeOwnershipTx.ts",
     "flatten": "truffle-flattener ./contracts/MockToken.sol > ./MockToken_flat.sol",
     "typecheck": "tsc --noEmit",
     "lint": "solhint './contracts/**/*.sol'",
