@@ -760,14 +760,10 @@
   dependencies:
     "@cspotcode/source-map-consumer" "0.8.0"
 
-"@defifofum/etherscan-sdk@^0.0.4":
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/@defifofum/etherscan-sdk/-/etherscan-sdk-0.0.4.tgz#10057530045012290f5ce3cd0636dfd59ab4436d"
-  integrity sha512-li4ZUDtvetIIzXa7B26i+SzLkgYwd/MDpSQco4dkaXwOm/Pz2CZvL0P6OemkDNnIb6zFLNyWtm1QbWK0NBgfZA==
-  dependencies:
-    axios "^0.21.2"
-    dotenv "^10.0.0"
-    ethers "^5.4.4"
+"@defifofum/etherscan-sdk@^0.0.10":
+  version "0.0.10"
+  resolved "https://registry.yarnpkg.com/@defifofum/etherscan-sdk/-/etherscan-sdk-0.0.10.tgz#093d8d63dfd4a45111943a11255fe6723434b5a2"
+  integrity sha512-YwSovFvIufCljL5AUaFywOScQ0E7W/9Y3hWiWWSiijzI7PeIswpEtSxqdR4lw+Tt6r7XHh86FhMbtI1SXxhI7g==
 
 "@ensdomains/address-encoder@^0.1.7":
   version "0.1.9"
@@ -3753,7 +3749,7 @@ axios@^0.20.0:
   dependencies:
     follow-redirects "^1.10.0"
 
-axios@^0.21.1, axios@^0.21.2:
+axios@^0.21.1:
   version "0.21.4"
   resolved "https://registry.yarnpkg.com/axios/-/axios-0.21.4.tgz#c67b90dc0568e5c1cf2b0b858c43ba28e2eda575"
   integrity sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==
@@ -6449,11 +6445,6 @@ dot-prop@^6.0.1:
   dependencies:
     is-obj "^2.0.0"
 
-dotenv@^10.0.0:
-  version "10.0.0"
-  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-10.0.0.tgz#3d4227b8fb95f81096cdd2b66653fb2c7085ba81"
-  integrity sha512-rlBi9d8jpv9Sf1klPjNfFAuWDjKLwTIJJ/VxtoTwIR6hnZxcEOQCZg2oIL3MWBYw5GpUDKOEnND7LXTbIpQ03Q==
-
 dotenv@^8.2.0:
   version "8.6.0"
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-8.6.0.tgz#061af664d19f7f4d8fc6e4ff9b584ce237adcb8b"
@@ -7456,7 +7447,7 @@ ethers@^4.0.32:
     uuid "2.0.1"
     xmlhttprequest "1.8.0"
 
-ethers@^5.0.13, ethers@^5.4.4, ethers@^5.4.7:
+ethers@^5.0.13, ethers@^5.4.7:
   version "5.5.2"
   resolved "https://registry.yarnpkg.com/ethers/-/ethers-5.5.2.tgz#cd2e508c7342c44fa70392f722e8de8f2416489f"
   integrity sha512-EF5W+6Wwcu6BqVwpgmyR5U2+L4c1FQzlM/02dkZOugN3KF0cG9bzHZP+TDJglmPm2/IzCEJDT7KBxzayk7SAHw==
