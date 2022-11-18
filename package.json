@@ -1,6 +1,6 @@
 {
-  "name": "@apeswapfinance/governance",
-  "version": "0.0.6",
+  "name": "@ape.swap/governance-sdk",
+  "version": "0.1.0",
   "description": "A collection of solidity smart contracts to help manage the ApeSwap DAO.",
   "author": "ApeSwap",
   "main": "dist/index.js",
@@ -15,8 +15,8 @@
     "prepublish": "yarn gen:types && yarn build",
     "ganache": "npx ganache-cli",
     "pretest": "yarn compile",
-    "testt": "mocha --exit --recursive --timeout 10000",
-    "test": "mocha --exit --recursive --require ts-node/register --timeout 10000 test/**/*.test.{js,ts}",
+    "test": "mocha --exit --recursive --timeout 10000",
+    "test:ts": "mocha --exit --recursive --require ts-node/register --timeout 10000 test/**/*.test.{js,ts}",
     "posttest": "yarn coverage && rm -rf ./coverage && rm -rf ./coverage.json",
     "coverage": "node ./coverage.js",
     "size": "truffle run contract-size",
@@ -49,7 +49,7 @@
   "repository": "https://github.com/ApeSwapFinance/apeswap-governance.git",
   "license": "MIT",
   "devDependencies": {
-    "@apeswapfinance/test-helpers": "^0.0.1",
+    "@ape.swap/test-helpers": "^1.1.0",
     "@commitlint/cli": "^12.1.1",
     "@commitlint/config-conventional": "^12.1.1",
     "@defifofum/etherscan-sdk": "^0.0.10",
