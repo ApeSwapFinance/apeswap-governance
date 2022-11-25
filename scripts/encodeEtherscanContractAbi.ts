@@ -17,6 +17,7 @@ import TimelockEncoder from '../lib/timelock/TimelockEncoder';
         for (const functionName of fullContractDetails.parsedAbi.functionList) {
             const functionDetails = fullContractDetails.parsedAbi.getFunctionByName(functionName);
             let inputs: Array<number | string | boolean> = [];
+            if(!functionDetails) continue;
             for (const input of functionDetails.inputs) {
                 const inputType = input.type;
                 // TODO: Can use random values in the future
