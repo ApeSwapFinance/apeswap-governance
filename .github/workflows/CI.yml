@@ -32,4 +32,4 @@ jobs:
           restore-keys: |
             ${{ matrix.os }}-yarn-
       - run: yarn
-      - run: yarn test
+      - run: yarn test:ci
