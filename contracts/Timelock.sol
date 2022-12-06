@@ -7,6 +7,7 @@ contract Timelock is TimelockController {
     constructor(
         uint256 minDelay,
         address[] memory proposers,
-        address[] memory executors
-    ) TimelockController(minDelay, proposers, executors) {}
+        address[] memory executors,
+        address admin
+    ) TimelockController(minDelay, proposers, executors, admin) {}
 }

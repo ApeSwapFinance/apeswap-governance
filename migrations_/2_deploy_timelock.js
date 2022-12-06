@@ -1,4 +1,4 @@
-const TimelockControllerEnumerable = artifacts.require("TimelockControllerEnumerable");
+const Timelock = artifacts.require("Timelock");
 
 const { getDeployConfig } = require("../deploy-config");
 
@@ -11,15 +11,12 @@ module.exports = async function (deployer, network, accounts) {
   const proposers = [admin, ...additionalProposers];
   const executors = [admin, ...additionalExecutors];
   // Deploy timelock
-  await deployer.deploy(TimelockControllerEnumerable, minDelay, proposers, executors, admin, {from: deployerAccount});
-  const timelock = await TimelockControllerEnumerable.at(TimelockControllerEnumerable.address);
+  await deployer.deploy(Timelock, minDelay, proposers, executors, admin, {from: deployerAccount});
+  const timelock = await Timelock.at(Timelock.address);
   // Transfer ownership to general admin
   const TIMELOCK_ADMIN_ROLE = await timelock.TIMELOCK_ADMIN_ROLE();
   const PROPOSER_ROLE = await timelock.PROPOSER_ROLE();
   const EXECUTOR_ROLE = await timelock.EXECUTOR_ROLE();
-  // For `TimelockControllerEnumerable` this is handled in the constructor
-  // await timelock.grantRole(TIMELOCK_ADMIN_ROLE, admin, {from: deployerAccount});
-  // await timelock.renounceRole(TIMELOCK_ADMIN_ROLE, deployerAccount, {from: deployerAccount});
   // Verify results
   const adminHasAdminRole = await timelock.hasRole(TIMELOCK_ADMIN_ROLE, admin, {from: deployerAccount});
   const deployerHasAdminRole = await timelock.hasRole(TIMELOCK_ADMIN_ROLE, deployerAccount, {from: deployerAccount});

@@ -6,14 +6,9 @@ import "@openzeppelin/contracts/access/AccessControlEnumerable.sol";
 
 contract TimelockControllerEnumerable is TimelockController, AccessControlEnumerable {
     constructor(uint256 minDelay, address[] memory proposers, address[] memory executors, address admin)
-        TimelockController(minDelay, proposers, executors)
-    {
-        // Setup admin role and revoke deployer admin role
-        _setupRole(TIMELOCK_ADMIN_ROLE, admin);
-        _revokeRole(TIMELOCK_ADMIN_ROLE, _msgSender());
-    }
+        TimelockController(minDelay, proposers, executors, admin) {}
 
-    function supportsInterface(bytes4 interfaceId) public view virtual override(AccessControl, AccessControlEnumerable) returns (bool) {
+    function supportsInterface(bytes4 interfaceId) public view virtual override(TimelockController, AccessControlEnumerable) returns (bool) {
         return super.supportsInterface(interfaceId);
     }
 
