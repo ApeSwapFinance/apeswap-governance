@@ -97,7 +97,7 @@ Tests are using
 `yarn gen:docs`
 [solidity-docgen](https://github.com/OpenZeppelin/solidity-docgen) can be used in this repo to scrape [NatSpec](https://docs.soliditylang.org/en/latest/natspec-format.html) comments into markdown files for easy document generation.  
 
-_This module uses the solc package to generate the documents. If the compiler is changed, ensure that the correct solc version is installed: `yarn add solc@0.8.7`_
+_This module uses the solc package to generate the documents. If the compiler is changed, ensure that the correct solc version is installed: `yarn add solc@0.8.17`_
 
 </br>
 
