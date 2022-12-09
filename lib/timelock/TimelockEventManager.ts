@@ -4,7 +4,7 @@ import TimelockBuild from '../../build/contracts/Timelock.json'
 import { Timelock } from '../../types/ethers-contracts/Timelock'
 import { BigNumber, utils, BytesLike, Signer } from 'ethers';
 import { ADDRESS_0 } from '../constants'
-import { TypedEventFilter } from '../../types/ethers-contracts/commons';
+import { TypedEventFilter } from '../../types/ethers-contracts/common';
 
 const abiCoder = utils.defaultAbiCoder;
 const keccak256 = utils.keccak256;
