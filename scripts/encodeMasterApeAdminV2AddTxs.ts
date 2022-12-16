@@ -1,14 +1,14 @@
 import { writeJSONToFile } from '@defifofum/files'
 
-import { BYTES_32 } from '../lib/constants'
+import { ADDRESS_0, BYTES_32 } from '../lib/constants'
 import { addressList } from '../lib/constants/addressList';
 import TimelockEncoder from '../lib/timelock/TimelockEncoder';
 import MasterApeAdminV2Encoder from '../lib/timelock/MasterApeAdminV2Encoder';
 
-import MASTER_APE_V2_ALLOCATIONS from './inputs/MASTER_APE_V2_ALLOCATIONS.json'
+import MASTER_APE_V2_NEW_FARMS from './inputs/MASTER_APE_V2_NEW_FARMS.json'
 
-interface SetInput {
-    pid: number | string
+interface AddInput {
+    lpToken: string
     allocation: number | string
     depositFeesBP?: number | string
     rewarder?: string
@@ -22,14 +22,14 @@ interface SetInput {
  *  omitted and left unchanged on the contract through the MasterApeAdminV2.
  * 
  * [{
- *      "pid": number | string,
+ *      "lpTokens": string,
  *      "allocation": number | string,
  *      "depositFeesBP"?: number | string,
  *      "rewarder"?: string,
  * }]
  */
-async function encodeSetTxs(
-    setAllocations: SetInput[],
+async function encodeAddTxs(
+    addAllocations: AddInput[],
     masterApeAdminV2Encoder: MasterApeAdminV2Encoder,
     options?: {
         withPoolUpdate?: boolean
@@ -39,39 +39,23 @@ async function encodeSetTxs(
     const withPoolUpdate = options?.withPoolUpdate || true
     const syncFixedPercentageFarms = options?.syncFixedPercentageFarms || true
 
-    const pids = setAllocations.map(value => value.pid);
-    const setAllocationsPoints = setAllocations.map(value => value.allocation);
-    if(pids.length != setAllocationsPoints.length) {
+    const lpTokens = addAllocations.map(value => value.lpToken);
+    const addAllocationsPoints = addAllocations.map(value => value.allocation);
+    if(lpTokens.length != addAllocationsPoints.length) {
         throw new Error(`allocations array mismatch!`)
     }
 
     /**
      * Configure optional params
      */
-    let depositFeesBPs = setAllocations.map(value => value.depositFeesBP);
-    if (depositFeesBPs.includes(undefined)) {
-        console.log(`WARNING: depositFeesBP are not being passed. 'undefined' found. They will remain unchanged on chain.`);
-        depositFeesBPs = [];
-    } else {
-        if(depositFeesBPs.length != pids.length) {
-            throw new Error(`depositFeesBPs array mismatch!`)
-        }
-    }
-    let rewarders = setAllocations.map(value => value.rewarder);
-    if (rewarders.includes(undefined)) {
-        console.log(`WARNING: rewarders are not being passed. 'undefined' found. They will remain unchanged on chain.`);
-        rewarders = [];
-    } else {
-        if(rewarders.length != pids.length) {
-            throw new Error(`rewarders array mismatch!`)
-        }
-    }
+    const depositFeesBPs = addAllocations.map(value => value.depositFeesBP || 0);
+    const rewarders = addAllocations.map(value => value.rewarder || ADDRESS_0);
 
-    return masterApeAdminV2Encoder.encodeSetMasterApeFarms(
-        pids, 
-        setAllocationsPoints, 
-        depositFeesBPs as (string | number)[], 
-        rewarders as string[], 
+    return masterApeAdminV2Encoder.encodeAddMasterApeFarms(
+        addAllocationsPoints, 
+        lpTokens, 
+        depositFeesBPs, 
+        rewarders, 
         withPoolUpdate, 
         syncFixedPercentageFarms
     );
@@ -88,10 +72,10 @@ async function encodeSetTxs(
         const masterApeAdminV2Encoder = new MasterApeAdminV2Encoder(masterApeAdminAddress);
 
         // Encode MasterApeAdminV2 Set Transactions
-        const encodedTx = await encodeSetTxs(MASTER_APE_V2_ALLOCATIONS, masterApeAdminV2Encoder);
+        const encodedTx = await encodeAddTxs(MASTER_APE_V2_NEW_FARMS, masterApeAdminV2Encoder);
         const encodedTimelockTxs = await timelockEncoder.encodeTxsForSingleOperation({ target: masterApeAdminAddress, data: encodedTx.data || '0x', salt: salt  }, TIMELOCK_DELAY)
         // Write output
-        const fileOutput = await writeJSONToFile('./scripts/encodeMasterApeAdminV2SetTxs.json', {encodedTimelockTxs, encodedTx}, true);
+        const fileOutput = await writeJSONToFile('./scripts/encodeMasterApeAdminV2AddTxs.json', {encodedTimelockTxs, encodedTx}, true);
         console.log(`Encoded transaction data has been saved to: ${fileOutput}`);
 
         process.exit(0); // Exit Success

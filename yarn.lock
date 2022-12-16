@@ -765,6 +765,14 @@
   resolved "https://registry.yarnpkg.com/@defifofum/etherscan-sdk/-/etherscan-sdk-0.0.10.tgz#093d8d63dfd4a45111943a11255fe6723434b5a2"
   integrity sha512-YwSovFvIufCljL5AUaFywOScQ0E7W/9Y3hWiWWSiijzI7PeIswpEtSxqdR4lw+Tt6r7XHh86FhMbtI1SXxhI7g==
 
+"@defifofum/files@^0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@defifofum/files/-/files-0.0.2.tgz#e6758d07f60459756a5f66ae68487f65bb3c6c3c"
+  integrity sha512-up9PisWPdPXVxSCHl9hU6znM/FWFi2Ay6M2XUQXBfsK5bh+DrA48Z+UYEW3noevaM0PlcK66shx7zd3CzDTp9Q==
+  dependencies:
+    fs "^0.0.1-security"
+    moment "^2.29.3"
+
 "@ensdomains/address-encoder@^0.1.7":
   version "0.1.9"
   resolved "https://registry.yarnpkg.com/@ensdomains/address-encoder/-/address-encoder-0.1.9.tgz#f948c485443d9ef7ed2c0c4790e931c33334d02d"
@@ -8213,6 +8221,11 @@ fs.realpath@^1.0.0:
   resolved "https://registry.yarnpkg.com/fs.realpath/-/fs.realpath-1.0.0.tgz#1504ad2523158caa40db4a2787cb01411994ea4f"
   integrity sha1-FQStJSMVjKpA20onh8sBQRmU6k8=
 
+fs@^0.0.1-security:
+  version "0.0.1-security"
+  resolved "https://registry.yarnpkg.com/fs/-/fs-0.0.1-security.tgz#8a7bd37186b6dddf3813f23858b57ecaaf5e41d4"
+  integrity sha512-3XY9e1pP0CVEUCdj5BmfIZxRBTSDycnbqhIOGec9QYtmVH2fbLpj86CFWkrNOkt/Fvty4KZG5lTglL9j/gJ87w==
+
 fsevents@^1.2.7:
   version "1.2.13"
   resolved "https://registry.yarnpkg.com/fsevents/-/fsevents-1.2.13.tgz#f325cb0455592428bcf11b383370ef70e3bfcc38"
@@ -11513,6 +11526,11 @@ module@^1.2.5:
     tildify "1.2.0"
     vinyl-fs "2.4.3"
     yargs "4.6.0"
+
+moment@^2.29.3:
+  version "2.29.4"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.4.tgz#3dbe052889fe7c1b2ed966fcb3a77328964ef108"
+  integrity sha512-5LC9SOxjSc2HF6vO2CyuTDNivEdoz2IvyJJGj6X8DJ0eFyfszE0QiEd+iXmBvUP3WHxSjFH/vIsA0EN00cgr8w==
 
 ms@2.0.0:
   version "2.0.0"

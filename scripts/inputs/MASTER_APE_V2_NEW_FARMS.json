@@ -1,0 +1,8 @@
+[
+    {
+      "lpToken": "0x",
+      "allocation": 0,
+      "depositFeesBP": "OPTIONAL",
+      "rewarder": "OPTIONAL"
+    }
+]
