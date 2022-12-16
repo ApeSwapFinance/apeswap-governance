@@ -36,7 +36,8 @@
     "lint": "solhint './contracts/**/*.sol'",
     "lint:fix": "solhint './contracts/**/*.sol' --fix",
     "gen:docs": "solidity-docgen --solc-module solc",
-    "prettier:fix": "prettier --write 'contracts/**/*.sol'"
+    "prettier:fix": "prettier --write 'contracts/**/*.sol'",
+    "scripts:master-ape-v2-set": "ts-node ./scripts/encodeMasterApeAdminV2SetTxs.ts"
   },
   "husky": {
     "hooks": {
