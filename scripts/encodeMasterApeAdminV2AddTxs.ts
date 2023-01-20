@@ -65,9 +65,9 @@ async function encodeAddTxs(
     try {
         // Setup
         const salt = BYTES_32(String(Math.floor(Math.random() * 100000) + 1));
-        const masterApeAdminAddress = addressList[56].MASTER_APE_ADMIN_V2_DUMMY;
-        const timelockAlphaAddress = addressList[56].OZ_TIMELOCK_ALPHA;
-        const timelockEncoder = new TimelockEncoder(timelockAlphaAddress);
+        const masterApeAdminAddress = addressList.bsc.MASTER_APE_ADMIN_V2;
+        const timelockGeneral = addressList.bsc.OZ_TIMELOCK_GENERAL;
+        const timelockEncoder = new TimelockEncoder(timelockGeneral);
         const TIMELOCK_DELAY = 20;
         const masterApeAdminV2Encoder = new MasterApeAdminV2Encoder(masterApeAdminAddress);
 

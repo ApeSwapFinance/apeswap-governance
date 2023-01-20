@@ -15,9 +15,9 @@ async function encodeMasterApeTransferOwnershipTx(newOwner: string, { masterApeA
 (async function () {
     try {
         const salt = BYTES_32(String(Math.floor(Math.random() * 100000) + 1));
-        const masterApeAddress = addressList[56].MASTER_APE_DUMMY;
-        const newOwnerAddress = addressList[56].MASTER_APE_ADMIN_DUMMY;
-        const timelockAddress = addressList[56].OZ_TIMELOCK_ALPHA;
+        const masterApeAddress = addressList.bsc.MASTER_APE;
+        const newOwnerAddress = addressList.bsc.MASTER_APE_ADMIN;
+        const timelockAddress = addressList.bsc.OZ_TIMELOCK_GENERAL;
         const timelockEncoder = new TimelockEncoder(timelockAddress);
 
         const encodedTx = await encodeMasterApeTransferOwnershipTx(newOwnerAddress, { masterApeAddress: masterApeAddress });

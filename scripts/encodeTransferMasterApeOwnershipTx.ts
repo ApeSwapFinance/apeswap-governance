@@ -12,7 +12,7 @@ import MasterApeAdminEncoder from '../lib/master-ape/MasterApeAdminEncoder';
         const timelockAddress = addressList[56].OZ_TIMELOCK_BRAVO;
         // NOTE: Set delay based on timelock settings
         const TIMELOCK_DELAY = 3600 * 6 // 20 for dummy contracts
-        const pendingOwner = addressList[56].GENERAL_ADMIN_EOA;
+        const pendingOwner = addressList.bsc.GENERAL_ADMIN_EOA;
         const timelockEncoder = new TimelockEncoder(timelockAddress);
         const masterApeAdminEncoder = new MasterApeAdminEncoder(masterApeAdminAddress);
         // 1. Set pending owner
