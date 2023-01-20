@@ -3,7 +3,7 @@ import { writeJSONToFile } from '@defifofum/files'
 import { BYTES_32 } from '../lib/constants'
 import { addressList } from '../lib/constants/addressList';
 import TimelockEncoder from '../lib/timelock/TimelockEncoder';
-import MasterApeAdminV2Encoder from '../lib/timelock/MasterApeAdminV2Encoder';
+import MasterApeAdminV2Encoder from '../lib/master-ape/MasterApeAdminV2Encoder';
 
 import MASTER_APE_V2_ALLOCATIONS from './inputs/MASTER_APE_V2_ALLOCATIONS.json'
 

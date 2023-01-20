@@ -1,8 +1,7 @@
 import { BYTES_32_0, BYTES_32 } from '../lib/constants'
 import { addressList } from '../lib/constants/addressList';
 import TimelockEncoder from '../lib/timelock/TimelockEncoder';
-import MasterApeAdminEncoder from '../lib/timelock/MasterApeAdminEncoder';
-
+import MasterApeAdminEncoder from '../lib/master-ape/MasterApeAdminEncoder';
 
 (async function () {
     try {
