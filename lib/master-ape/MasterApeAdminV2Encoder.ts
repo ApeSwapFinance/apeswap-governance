@@ -14,6 +14,16 @@ export default class MasterApeAdminV2Encoder {
         return await this.masterApeAdminV2Contract.populateTransaction.acceptMasterApeV2Ownership();
     }
 
+    /** Contract Whitelist Functions */
+
+    async encodeSetBatchContractWhitelist(addresses: string[], isWhitelisted: boolean[]): Promise<PopulatedTransaction> {
+        return await this.masterApeAdminV2Contract.populateTransaction.setBatchContractWhitelist(addresses, isWhitelisted);
+    }
+
+    async encodeSetContractWhitelist(address: string, isWhitelisted: boolean): Promise<PopulatedTransaction> {
+        return await this.masterApeAdminV2Contract.populateTransaction.setContractWhitelist(address, isWhitelisted);
+    }
+
     /** onlyOwner Functions */
 
     async encodeSetPendingMasterApeV1Owner(newOwner: string): Promise<PopulatedTransaction> {
