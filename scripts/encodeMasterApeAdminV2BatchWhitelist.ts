@@ -5,7 +5,7 @@ import { addressList } from '../lib/constants/addressList';
 import TimelockEncoder from '../lib/timelock/TimelockEncoder';
 import MasterApeAdminV2Encoder from '../lib/master-ape/MasterApeAdminV2Encoder';
 
-import KeeperMaximizerVaultApeABI from './ABIs/KeeperMaximizerVaultApe.json'
+import KeeperMaximizerVaultApeABI from '../build-apeswap/contracts/KeeperMaximizerVaultApe.json'
 import { Interface } from 'ethers/lib/utils';
 import { ethers } from 'ethers';
 
@@ -32,8 +32,8 @@ async function getVaultContractsToWhitelist(
         const masterApeAdminV2Address = addressList.bsc.MASTER_APE_ADMIN_V2;
         const masterApeAdminV2Encoder = new MasterApeAdminV2Encoder(masterApeAdminV2Address);
         const timelockGeneral = addressList.bsc.OZ_TIMELOCK_GENERAL;
+        const TIMELOCK_DELAY = addressList.bsc.TIMELOCK_DELAY;
         const timelockEncoder = new TimelockEncoder(timelockGeneral);
-        const TIMELOCK_DELAY = 20;
 
         // Vault Configuration
         const VAULT_ADDRESS = '0xe5c27cd5981b727d25d37b155abf9aa152ceadbe'
@@ -41,7 +41,6 @@ async function getVaultContractsToWhitelist(
         const provider = ethers.getDefaultProvider(PROVIDER_URL);
         const { vaultAddresses, vaultWhitelists } = await getVaultContractsToWhitelist(VAULT_ADDRESS, provider)
         const encodedTx = await masterApeAdminV2Encoder.encodeSetBatchContractWhitelist(vaultAddresses, vaultWhitelists);
-
 
 
         const encodedTimelockTxs = await timelockEncoder.encodeTxsForSingleOperation({ target: masterApeAdminV2Address, data: encodedTx.data || '0x', salt: salt  }, TIMELOCK_DELAY)

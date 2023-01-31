@@ -81,15 +81,15 @@ async function encodeSetTxs(
     try {
         // Setup
         const salt = BYTES_32(String(Math.floor(Math.random() * 100000) + 1));
-        const masterApeAdminAddress = addressList.bsc.MASTER_APE_ADMIN;
+        const masterApeAdminV2Address = addressList.bsc.MASTER_APE_ADMIN_V2;
         const timelockGeneral = addressList.bsc.OZ_TIMELOCK_GENERAL;
+        const TIMELOCK_DELAY = addressList.bsc.TIMELOCK_DELAY;
         const timelockEncoder = new TimelockEncoder(timelockGeneral);
-        const TIMELOCK_DELAY = 20;
-        const masterApeAdminV2Encoder = new MasterApeAdminV2Encoder(masterApeAdminAddress);
+        const masterApeAdminV2Encoder = new MasterApeAdminV2Encoder(masterApeAdminV2Address);
 
         // Encode MasterApeAdminV2 Set Transactions
         const encodedTx = await encodeSetTxs(MASTER_APE_V2_ALLOCATIONS, masterApeAdminV2Encoder);
-        const encodedTimelockTxs = await timelockEncoder.encodeTxsForSingleOperation({ target: masterApeAdminAddress, data: encodedTx.data || '0x', salt: salt  }, TIMELOCK_DELAY)
+        const encodedTimelockTxs = await timelockEncoder.encodeTxsForSingleOperation({ target: masterApeAdminV2Address, data: encodedTx.data || '0x', salt: salt  }, TIMELOCK_DELAY)
         // Write output
         const fileOutput = await writeJSONToFile('./scripts/encodeMasterApeAdminV2SetTxs.json', {encodedTimelockTxs, encodedTx}, true);
         console.log(`Encoded transaction data has been saved to: ${fileOutput}`);
